@@ -129,7 +129,7 @@ class S(BaseHTTPRequestHandler):
 			else:
 				return False 
 
-		for nid, nei in graph.iteritems():
+		for nid, nei in graph.items():
 			for nn in nei:
 				if inrange(nn) or inrange(nid):
 					edge = (addbias(nid), addbias(nn))

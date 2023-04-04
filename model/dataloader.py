@@ -8,7 +8,7 @@ import json
 import scipy.ndimage 
 import math 
 import cv2
-
+import imageio
 
 image_size = 256 
 vector_norm = 25.0 
@@ -152,9 +152,9 @@ class Sat2GraphDataLoader():
 	def loadtile(self, ind):
 		
 		try:
-			sat_img = scipy.ndimage.imread(self.folder + "/region_%d_sat.png" % ind).astype(np.float)
+			sat_img = imageio.imread(self.folder + "/region_%d_sat.png" % ind).astype(np.float)
 		except:
-			sat_img = scipy.ndimage.imread(self.folder + "/region_%d_sat.jpg" % ind).astype(np.float)
+			sat_img = imageio.imread(self.folder + "/region_%d_sat.jpg" % ind).astype(np.float)
 					
 		max_v = np.amax(sat_img) + 0.0001 
 
@@ -252,22 +252,22 @@ class Sat2GraphDataLoader():
 			
 			
 			try:
-				sat_img = scipy.ndimage.imread(self.folder + "/region_%d_sat.png" % ind)
+				sat_img = imageio.imread(self.folder + "/region_%d_sat.png" % ind)
 			except:
-				sat_img = scipy.ndimage.imread(self.folder + "/region_%d_sat.jpg" % ind)
+				sat_img = imageio.imread(self.folder + "/region_%d_sat.jpg" % ind)
 
 			max_v = np.amax(sat_img) + 0.0001 
 
 			
 
 
-			neighbors = pickle.load(open(self.folder + "/region_%d_refine_gt_graph.p" % ind))
+			neighbors = pickle.load(open(self.folder + "/region_%d_refine_gt_graph.p" % ind, "rb"))
 			neighbors = neighbor_to_integer(neighbors)
 
 			if self.transpose:
 				neighbors = neighbor_transpos(neighbors)
 
-			gt_seg = scipy.ndimage.imread(self.folder + "/region_%d_gt.png" % ind)
+			gt_seg = imageio.imread(self.folder + "/region_%d_gt.png" % ind)
 
 			self.rotmask[i,:,:] = np.ones((self.dataset_image_size, self.dataset_image_size))
 

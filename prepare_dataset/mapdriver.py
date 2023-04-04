@@ -356,6 +356,7 @@ class OSMLoader:
 
         else:
             filename = osmfile
+            
 
 
         roadForMotorDict = {'motorway','trunk','primary','secondary','tertiary','residential'}
@@ -379,10 +380,10 @@ class OSMLoader:
         way_c = 0
 
 
-        self.minlat = float(mapxml.find('bounds').get('minlat'))
-        self.maxlat = float(mapxml.find('bounds').get('maxlat'))    
-        self.minlon = float(mapxml.find('bounds').get('minlon'))
-        self.maxlon = float(mapxml.find('bounds').get('maxlon'))
+        # self.minlat = float(mapxml.find('bounds').get('minlat'))
+        # self.maxlat = float(mapxml.find('bounds').get('maxlat'))    
+        # self.minlon = float(mapxml.find('bounds').get('minlon'))
+        # self.maxlon = float(mapxml.find('bounds').get('maxlon'))
 
         for anode in nodes:
             tmp = {}

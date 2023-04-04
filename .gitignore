@@ -1,0 +1,4 @@
+.envrc
+data/*
+__pycache__/
+tmptest_*/

@@ -2,6 +2,7 @@ import math
 import numpy as np 
 import os 
 import scipy.ndimage
+import imageio
 from PIL import Image 
 from subprocess import Popen 
 from time import time, sleep 
@@ -27,8 +28,8 @@ def lonlat2TilePos(lonlat, zoom):
 	return x,y
 
 def downloadMapBox(zoom, p, outputname):
-	url = "https://c.tiles.mapbox.com/v4/mapbox.satellite/%d/%d/%d@2x.jpg?access_token=pk.eyJ1Ijoib3BlbnN0cmVldG1hcCIsImEiOiJjaml5MjVyb3MwMWV0M3hxYmUzdGdwbzE4In0.q548FjhsSJzvXsGlPsFxAQ" % (zoom, p[0], p[1])
-	filename = "%d@2x.jpg?access_token=pk.eyJ1Ijoib3BlbnN0cmVldG1hcCIsImEiOiJjaml5MjVyb3MwMWV0M3hxYmUzdGdwbzE4In0.q548FjhsSJzvXsGlPsFxAQ" % (p[1])
+	url = "https://c.tiles.mapbox.com/v4/mapbox.satellite/%d/%d/%d@2x.jpg?access_token=pk.eyJ1Ijoic2hyaWppdHMiLCJhIjoiY2xmajJic3ZhMGNhNjQzbWJ5NnF3ZGc1ZyJ9.S7GLtUV2GeKnHZ5KW21trg" % (zoom, p[0], p[1])
+	filename = "%d@2x.jpg?access_token=pk.eyJ1Ijoic2hyaWppdHMiLCJhIjoiY2xmajJic3ZhMGNhNjQzbWJ5NnF3ZGc1ZyJ9.S7GLtUV2GeKnHZ5KW21trg" % (p[1])
 
 	Succ = False
 
@@ -36,7 +37,6 @@ def downloadMapBox(zoom, p, outputname):
 	retry_timeout = 10
 
 	while Succ != True :
-		Popen("gtimeout 30s wget "+url, shell = True).wait()
 		Popen("timeout 30s wget "+url, shell = True).wait()
 		Succ = os.path.isfile(filename) 
 		Popen("mv \""+filename+"\" "+outputname, shell=True).wait()
@@ -77,7 +77,7 @@ def GetMapInRect(min_lat,min_lon, max_lat, max_lon , folder = "mapbox_cache/", s
 
 			if Succ == True:
 				try:
-					subimg = scipy.ndimage.imread(filename).astype(np.uint8)
+					subimg = imageio.imread(filename).astype(np.uint8)
 				except:
 					print("image file is damaged, try to redownload it", filename)
 					Succ = False
@@ -86,7 +86,7 @@ def GetMapInRect(min_lat,min_lon, max_lat, max_lon , folder = "mapbox_cache/", s
 				Succ = downloadMapBox(zoom, [i+mapbox1[0],j+mapbox2[1]], filename)
 
 			if Succ:
-				subimg = scipy.ndimage.imread(filename).astype(np.uint8)
+				subimg = imageio.imread(filename).astype(np.uint8)
 				img[j*512:(j+1)*512, i*512:(i+1)*512,:] = subimg
 
 
